@@ -1,60 +1,51 @@
-@if ($errors->any())
-<div class="alert alert-danger">
-    <h3>Error Occuer</h3>
-    <ul>
-        @foreach ($errors->all() as $error )
-        <li>
-            {{$error}}
-        </li>
-        @endforeach
-    </ul>
-</div>
-
-@endif
-
 @extends('dashboard/dashboard2')
 
-@section('title','Categories')
+@section('title','Product')
 
-@section('title2','Categories')
+@section('title2','Product')
 
 @section('breadcrumb')
 @parent
-<li class="breadcrumb-item active">Categories</li>
+<li class="breadcrumb-item active">Edit Product</li>
 @endsection
 
 @section('content')
 <div class="container mt-5">
-    <form action="{{ route('categories.store') }}" method="post">
+    <form action="{{ route('products.update',$product->id) }}" method="post">
         @csrf
+        @method('put')
         <div class="form-group">
-            <label for="name">Category Name</label>
-            <input type="text" name="name" class="form-control" placeholder="Enter category name" required>
+            <label for="name">Product Name</label>
+            <input type="text" name="name" class="form-control" placeholder="Enter product name" required value="{{$product->name}}">
             @error('name')
                 <div class="alert alert-danger mt-1">{{ $message }}</div>
             @enderror
         </div>
-        <div class="form-group">
-            <label for="">Category Parent</label>
-            <select name="parent_id" class="form-control form-select">
-                <option value="">Primary Category</option>
-                {{-- @foreach($parents as $parent) --}}
-                {{-- <option value="{{ $parent->id }}" @selected(old('parent_id', $category->parent_id) == $parent->id)>{{ $parent->name }}</option> --}}
-                {{-- @endforeach --}}
-            </select>
-        </div>
 
-         <div class="form-group">
+        <div class="form-group">
+            <label for="name">price</label>
+            <input type="text" name="price" class="form-control" placeholder="Enter price " required value="{{$product->price}}">
+            @error('name')
+                <div class="alert alert-danger mt-1">{{ $message }}</div>
+            @enderror
+        </div>
+        {{-- <div class="form-group">
+            <label for="name"> options</label>
+            <input type="text" name="options" class="form-control" placeholder="Enter options" required value="{{$product->options}}">
+            @error('options')
+                <div class="alert alert-danger mt-1">{{ $message }}</div>
+            @enderror
+        </div> --}}
+        <div class="form-group">
             <label for="image">image</label>
             <input type="file" name="image" class="form-control" placeholder="Enter image URL">
             @error('image')
                 <div class="alert alert-danger mt-1">{{ $message }}</div>
             @enderror
         </div>
-
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea name="description" class="form-control" rows="4" placeholder="Enter category description"></textarea>
+            <textarea name="description" class="form-control" rows="4" placeholder="Enter product description">{{$product->description}}</textarea>
             @error('description')
                 <div class="alert alert-danger mt-1">{{ $message }}</div>
             @enderror
@@ -83,9 +74,7 @@
         </div>
     </form>
 </div>
-
 @endsection
-
 
 
 @section('sidebar')

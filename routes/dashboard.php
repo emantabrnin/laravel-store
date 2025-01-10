@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,7 @@ Route::group([
     Route::get('/test', [DashboardController::class, 'dashboard']);
 
     Route::resource('/test/categories', CategoryController::class);
+    Route::resource('/test/products', ProductController::class);
 }
 );
 

@@ -1,18 +1,18 @@
 @extends('dashboard/dashboard2')
 
-@section('title','Categories')
+@section('title','Products')
 
-@section('title2','Categories')
+@section('title2','Products')
 
 @section('breadcrumb')
 @parent
-<li class="breadcrumb-item active">Categories</li>
+<li class="breadcrumb-item active">Products</li>
 @endsection
 
 @section('content')
 
 <div class="mb-5">
-    <a href="{{ route('categories.create') }}" class="btn btn-sm btn-outline-primary">Create Category</a>
+    <a href="{{ route('products.create') }}" class="btn btn-sm btn-outline-primary">Create Product</a>
 </div>
 
 <table class="table table-striped table-bordered">
@@ -20,23 +20,25 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Created At</th>
-            <th>Parent ID</th>
+            <th>Category </th>
+            <th>Store </th>
             <th>Status</th>
+            <th>Created At</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @forelse($categories as $category)
+        @forelse($products as $product)
         <tr>
-            <td>{{ $category->id }}</td>
-            <td><a href="{{route('categories.show' ,$category->id)}}">{{ $category->name }}</a></td>
-            <td>{{ $category->created_at->format('Y-m-d H:i:s') }}</td>
-            <td>{{ $category->parent_id ?? 'N/A' }}</td>
-            <td>{{ $category->status }}</td>
+            <td>{{ $product->id }}</td>
+            <td>{{ $product->name }}</td>
+            <td>{{ $product->category->name ?? 'N/A' }}</td>
+            <td>{{ $product->store->name ?? 'N/A' }}</td>
+            <td>{{ $product->created_at->format('Y-m-d H:i:s') }}</td>
+            <td>{{ $product->status }}</td>
             <td>
-                <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
-                <form action="{{ route('categories.destroy', $category->id) }}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
+                <form action="{{ route('products.destroy', $product->id) }}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this category?');">
                     @csrf
                     @method('delete')
                     <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -45,12 +47,12 @@
         </tr>
         @empty
         <tr>
-            <td colspan="5" class="text-center">No Categories defined.</td>
+            <td colspan="5" class="text-center">No products defined.</td>
         </tr>
         @endforelse
     </tbody>
 </table>
-{{$categories->links()}}
+{{$products->links()}}
 
 @endsection
 

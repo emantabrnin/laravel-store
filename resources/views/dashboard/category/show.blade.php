@@ -1,58 +1,43 @@
 @extends('dashboard/dashboard2')
 
-@section('title','Categories')
+@section('title',$category->name)
 
 @section('title2','Categories')
 
 @section('breadcrumb')
 @parent
-<li class="breadcrumb-item active">Categories</li>
+<li class="breadcrumb-item active">{{$category->name}}</li>
 @endsection
 
 @section('content')
 
-<div class="mb-5">
-    <a href="{{ route('categories.create') }}" class="btn btn-sm btn-outline-primary">Create Category</a>
-</div>
-
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Name</th>
-            <th>Created At</th>
-            <th>Parent ID</th>
+            <th>Store </th>
             <th>Status</th>
-            <th>Actions</th>
+            <th>Created At</th>
         </tr>
     </thead>
     <tbody>
-        @forelse($categories as $category)
+        @forelse($category->products()->with('store')->paginate(5) as $product)
         <tr>
-            <td>{{ $category->id }}</td>
-            <td><a href="{{route('categories.show' ,$category->id)}}">{{ $category->name }}</a></td>
-            <td>{{ $category->created_at->format('Y-m-d H:i:s') }}</td>
-            <td>{{ $category->parent_id ?? 'N/A' }}</td>
-            <td>{{ $category->status }}</td>
-            <td>
-                <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-outline-success">Edit</a>
-                <form action="{{ route('categories.destroy', $category->id) }}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this category?');">
-                    @csrf
-                    @method('delete')
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                </form>
-            </td>
+            <td>{{ $product->name }}</td>
+            <td>{{ $product->store->name ?? 'N/A' }}</td>
+            <td>{{ $product->status }}</td>
+            <td>{{ $product->created_at->format('Y-m-d H:i:s') }}</td>
         </tr>
         @empty
         <tr>
-            <td colspan="5" class="text-center">No Categories defined.</td>
+            <td colspan="5" class="text-center">No products defined.</td>
         </tr>
         @endforelse
     </tbody>
 </table>
-{{$categories->links()}}
-
+{{-- {{$category->products->links()}} --}}
 @endsection
+
 
 @section('sidebar')
 <div class="sidebar">

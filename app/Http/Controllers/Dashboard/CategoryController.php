@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = category::all(); // Retrieve all categories from the database
+        $categories = category::simplePaginate(2); // Retrieve all categories from the database
         return View('dashboard.category.index', compact('categories'));
     }
 
@@ -54,9 +54,11 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(category $category)
     {
-        //
+        return View('dashboard.category.show',[
+            'category' => $category
+        ]);
     }
 
     /**
