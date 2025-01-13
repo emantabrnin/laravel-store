@@ -24,6 +24,9 @@ class Product extends Model
     public function tags(){
         return $this->belongsToMany(Tag::class);
     }
+    public function scopeActive(Builder $builder){
+        return $builder->where('status','=','active');
+    }
     protected static function booted(){
 
         static::addGlobalScope('store',function(Builder $builder){
